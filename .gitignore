@@ -1,0 +1,27 @@
+# Virtual environment
+venv/
+
+# Visual Studio
+.vs/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Pytest
+.pytest_cache/
+.hypothesis/
+.schemathesis/
+
+# Coverage
+.coverage
+htmlcov/
+
+# Environment
+.env
+
+# Generated output
+output/
+
+# Windows
+Thumbs.db
