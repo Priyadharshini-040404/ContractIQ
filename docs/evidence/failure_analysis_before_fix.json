@@ -1,0 +1,62 @@
+{
+  "status": "analyzed",
+  "timestamp": "2026-09-02T15:02:46.106801",
+  "total_failures": 2,
+  "analyses": [
+    {
+      "test_id": "update_pet_edge_01",
+      "test_name": "Empty body for PUT /api/v1/pets/{pet_id}",
+      "severity": "medium",
+      "root_cause": "Validation error. Request body failed schema validation.",
+      "contract_mismatch": "Request payload doesn't match schema requirements",
+      "impacted_components": [
+        "Input validation",
+        "Schema definitions"
+      ],
+      "recommended_actions": [
+        "Review request body against schema",
+        "Check required fields",
+        "Validate data types"
+      ],
+      "explanation": "The test 'Empty body for PUT /api/v1/pets/{pet_id}' failed because validation error. request body failed schema validation. This indicates a contract deviation.",
+      "analysis_method": "rule_based"
+    },
+    {
+      "test_id": "delete_pet_positive_01",
+      "test_name": "Valid DELETE request to /api/v1/pets/{pet_id}",
+      "severity": "high",
+      "root_cause": "Resource not found. Expected 204 but got 404.",
+      "contract_mismatch": "Endpoint returned 404 instead of expected response",
+      "impacted_components": [
+        "API routing",
+        "Resource management"
+      ],
+      "recommended_actions": [
+        "Verify resource exists",
+        "Check URL path parameters",
+        "Ensure data seeding"
+      ],
+      "explanation": "The test 'Valid DELETE request to /api/v1/pets/{pet_id}' failed because resource not found. expected 204 but got 404. This indicates a contract deviation.",
+      "analysis_method": "rule_based"
+    }
+  ],
+  "summary": {
+    "total_analyzed": 2,
+    "severity_breakdown": {
+      "critical": 0,
+      "high": 1,
+      "medium": 1,
+      "low": 0
+    },
+    "unique_root_causes": 2,
+    "contract_mismatches": 2,
+    "top_recommended_actions": [
+      "Review request body against schema",
+      "Check required fields",
+      "Validate data types",
+      "Verify resource exists",
+      "Check URL path parameters"
+    ],
+    "overall_health": "degraded"
+  }
+}

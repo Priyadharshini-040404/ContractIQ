@@ -1,0 +1,1108 @@
+{
+  "api_info": {
+    "title": "ContractIQ Task List API",
+    "version": "1.0.0",
+    "description": "A small, unrelated Task-List API used purely as proof that ContractIQ's test generation (core/test_synthesizer.py) is genuinely spec-driven: this file was written independently of the PetStore spec and shares no path, parameter name, or schema with it, yet the exact same generator code produces a valid, executable test suite against it with zero code changes (see Group 5 of docs/AUDIT_AND_FIXES.md).\n",
+    "openapi_version": "3.1.0"
+  },
+  "server_url": "http://localhost:8001",
+  "test_suites": [
+    {
+      "endpoint": "GET /health",
+      "operation_id": "health_check",
+      "test_cases": [
+        {
+          "test_id": "health_check_positive_01",
+          "name": "Valid GET request to /health",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/health",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/tasks",
+      "operation_id": "list_tasks",
+      "test_cases": [
+        {
+          "test_id": "list_tasks_positive_01",
+          "name": "Valid GET request to /api/v1/tasks",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/tasks",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "POST /api/v1/tasks",
+      "operation_id": "create_task",
+      "test_cases": [
+        {
+          "test_id": "create_task_positive_01",
+          "name": "Valid POST request to /api/v1/tasks",
+          "type": "positive",
+          "description": "Test valid POST request",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/tasks",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "title": "Buy groceries",
+              "priority": "medium",
+              "due_in_days": 3,
+              "completed": true
+            }
+          },
+          "expected": {
+            "status_code": 201,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "create_task_edge_01",
+          "name": "Empty body for POST /api/v1/tasks",
+          "type": "edge_case",
+          "description": "Test with empty request body \u2014 expects a validation error",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/tasks",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {}
+          },
+          "expected": {
+            "status_code": 422,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "create_task_boundary_01",
+          "name": "Invalid 'title' for POST /api/v1/tasks",
+          "type": "edge_case",
+          "description": "Test with 'title' exceeds maxLength of 200",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/tasks",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "title": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+              "priority": "medium",
+              "due_in_days": 3,
+              "completed": true
+            }
+          },
+          "expected": {
+            "status_code": 422,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "create_task_boundary_02",
+          "name": "Invalid 'priority' for POST /api/v1/tasks",
+          "type": "edge_case",
+          "description": "Test with 'priority' value outside declared enum ['low', 'medium', 'high']",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/tasks",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "title": "Buy groceries",
+              "priority": "__contractiq_invalid_enum_value__",
+              "due_in_days": 3,
+              "completed": true
+            }
+          },
+          "expected": {
+            "status_code": 422,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "create_task_boundary_04",
+          "name": "Invalid 'due_in_days' for POST /api/v1/tasks",
+          "type": "edge_case",
+          "description": "Test with 'due_in_days' exceeds maximum of 365",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/tasks",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "title": "Buy groceries",
+              "priority": "medium",
+              "due_in_days": 366,
+              "completed": true
+            }
+          },
+          "expected": {
+            "status_code": 422,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/tasks/{task_id}",
+      "operation_id": "get_task",
+      "test_cases": [
+        {
+          "test_id": "get_task_positive_01",
+          "name": "Valid GET request to /api/v1/tasks/{task_id}",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/tasks/0f588f6a",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "get_task_negative_01",
+          "name": "Invalid ID for /api/v1/tasks/{task_id}",
+          "type": "negative",
+          "description": "Test with a non-existent resource ID",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/tasks/nonexistent-contractiq-999",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 404,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "PUT /api/v1/tasks/{task_id}",
+      "operation_id": "update_task",
+      "test_cases": [
+        {
+          "test_id": "update_task_positive_01",
+          "name": "Valid PUT request to /api/v1/tasks/{task_id}",
+          "type": "positive",
+          "description": "Test valid PUT request",
+          "request": {
+            "method": "PUT",
+            "path": "/api/v1/tasks/0f588f6a",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "title": "Buy groceries",
+              "priority": "low",
+              "completed": true,
+              "due_in_days": 3
+            }
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "update_task_negative_01",
+          "name": "Invalid ID for /api/v1/tasks/{task_id}",
+          "type": "negative",
+          "description": "Test with a non-existent resource ID",
+          "request": {
+            "method": "PUT",
+            "path": "/api/v1/tasks/nonexistent-contractiq-999",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "title": "Buy groceries",
+              "priority": "low",
+              "completed": true,
+              "due_in_days": 3
+            }
+          },
+          "expected": {
+            "status_code": 404,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "update_task_edge_01",
+          "name": "Empty body for PUT /api/v1/tasks/{task_id}",
+          "type": "edge_case",
+          "description": "Test with empty request body \u2014 no required fields, so this is a valid no-op",
+          "request": {
+            "method": "PUT",
+            "path": "/api/v1/tasks/0f588f6a",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {}
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "DELETE /api/v1/tasks/{task_id}",
+      "operation_id": "delete_task",
+      "test_cases": [
+        {
+          "test_id": "delete_task_positive_01",
+          "name": "Valid DELETE request to /api/v1/tasks/{task_id}",
+          "type": "positive",
+          "description": "Test valid DELETE request",
+          "request": {
+            "method": "DELETE",
+            "path": "/api/v1/tasks/{{token}}",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 204,
+            "response_body_contains": [],
+            "response_type": "empty"
+          },
+          "setup": {
+            "method": "POST",
+            "path": "/api/v1/tasks",
+            "body": {
+              "title": "Buy groceries",
+              "priority": "medium",
+              "due_in_days": 3,
+              "completed": true
+            },
+            "capture": "id"
+          }
+        },
+        {
+          "test_id": "delete_task_negative_01",
+          "name": "Invalid ID for /api/v1/tasks/{task_id}",
+          "type": "negative",
+          "description": "Test with a non-existent resource ID",
+          "request": {
+            "method": "DELETE",
+            "path": "/api/v1/tasks/nonexistent-contractiq-999",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 404,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/stats",
+      "operation_id": "get_stats",
+      "test_cases": [
+        {
+          "test_id": "get_stats_positive_01",
+          "name": "Valid GET request to /api/v1/stats",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/stats",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    }
+  ],
+  "assertions": [
+    {
+      "test_id": "health_check_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "status",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'status' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "version",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'version' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "list_tasks_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        }
+      ]
+    },
+    {
+      "test_id": "create_task_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 201,
+          "description": "Status code should be 201"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "title",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'title' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "priority",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'priority' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "id",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'id' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "created_at",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'created_at' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "create_task_edge_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 422,
+          "description": "Status code should be 422"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "detail",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'detail' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "error_code",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'error_code' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "create_task_boundary_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 422,
+          "description": "Status code should be 422"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "detail",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'detail' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "error_code",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'error_code' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "create_task_boundary_02",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 422,
+          "description": "Status code should be 422"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "detail",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'detail' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "error_code",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'error_code' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "create_task_boundary_04",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 422,
+          "description": "Status code should be 422"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "detail",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'detail' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "error_code",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'error_code' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "get_task_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "title",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'title' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "priority",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'priority' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "id",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'id' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "created_at",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'created_at' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "get_task_negative_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 404,
+          "description": "Status code should be 404"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "detail",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'detail' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "error_code",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'error_code' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "update_task_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "title",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'title' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "priority",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'priority' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "id",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'id' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "created_at",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'created_at' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "update_task_negative_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 404,
+          "description": "Status code should be 404"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "detail",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'detail' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "error_code",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'error_code' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "update_task_edge_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "title",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'title' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "priority",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'priority' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "id",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'id' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "created_at",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'created_at' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "delete_task_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 204,
+          "description": "Status code should be 204"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "none",
+          "description": "Response should have no body"
+        }
+      ]
+    },
+    {
+      "test_id": "delete_task_negative_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 404,
+          "description": "Status code should be 404"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "detail",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'detail' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "error_code",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'error_code' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    },
+    {
+      "test_id": "get_stats_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_body",
+          "field": "total_tasks",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'total_tasks' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "completed_tasks",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'completed_tasks' (declared required by the spec)"
+        },
+        {
+          "type": "response_body",
+          "field": "timestamp",
+          "operator": "exists",
+          "expected_value": null,
+          "description": "Response should contain 'timestamp' (declared required by the spec)"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "total_endpoints": 7,
+    "total_test_cases": 15,
+    "total_assertions": 88,
+    "generation_method": "template",
+    "fallback_reason": "ai_call_failed: 404 POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?%24alt=json%3Benum-encoding%3Dint: models/gemini-2.5-flash-preview-05-20 is not found for API version v1beta, or is not supported for generateContent. Call ModelService.ListModels to see the list of available models and their supported methods."
+  }
+}

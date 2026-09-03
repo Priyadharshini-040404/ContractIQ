@@ -1,0 +1,267 @@
+openapi: "3.1.0"
+info:
+  title: ContractIQ Task List API
+  description: >
+    A small, unrelated Task-List API used purely as proof that
+    ContractIQ's test generation (core/test_synthesizer.py) is
+    genuinely spec-driven: this file was written independently of the
+    PetStore spec and shares no path, parameter name, or schema with
+    it, yet the exact same generator code produces a valid, executable
+    test suite against it with zero code changes (see Group 5 of
+    docs/AUDIT_AND_FIXES.md).
+  version: "1.0.0"
+  contact:
+    name: ContractIQ
+servers:
+  - url: http://localhost:8001
+    description: Local development server
+
+paths:
+  /health:
+    get:
+      summary: Health Check
+      operationId: health_check
+      tags: [System]
+      responses:
+        "200":
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /api/v1/tasks:
+    get:
+      summary: List Tasks
+      operationId: list_tasks
+      tags: [Tasks]
+      parameters:
+        - name: completed
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: priority
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/TaskPriority"
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+
+    post:
+      summary: Create Task
+      operationId: create_task
+      tags: [Tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskCreate"
+      responses:
+        "201":
+          description: Task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/tasks/{task_id}:
+    get:
+      summary: Get Task
+      operationId: get_task
+      tags: [Tasks]
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "sample-task-id-001"
+      responses:
+        "200":
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    put:
+      summary: Update Task
+      operationId: update_task
+      tags: [Tasks]
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "sample-task-id-001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskUpdate"
+      responses:
+        "200":
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    delete:
+      summary: Delete Task
+      operationId: delete_task
+      tags: [Tasks]
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "sample-task-id-001"
+      responses:
+        "204":
+          description: Task deleted
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /api/v1/stats:
+    get:
+      summary: Get Stats
+      operationId: get_stats
+      tags: [System]
+      responses:
+        "200":
+          description: API statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_tasks:
+                    type: integer
+                  completed_tasks:
+                    type: integer
+                  timestamp:
+                    type: string
+
+components:
+  schemas:
+    TaskPriority:
+      type: string
+      enum: [low, medium, high]
+
+    TaskCreate:
+      type: object
+      required: [title, priority]
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: "Buy groceries"
+        priority:
+          $ref: "#/components/schemas/TaskPriority"
+        completed:
+          type: boolean
+          default: false
+        due_in_days:
+          type: integer
+          minimum: 0
+          maximum: 365
+          example: 3
+      example:
+        title: "Buy groceries"
+        priority: "medium"
+        due_in_days: 3
+
+    Task:
+      allOf:
+        - $ref: "#/components/schemas/TaskCreate"
+        - type: object
+          required: [id, created_at]
+          properties:
+            id:
+              type: string
+            created_at:
+              type: string
+
+    TaskUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: "Buy groceries"
+        priority:
+          $ref: "#/components/schemas/TaskPriority"
+        completed:
+          type: boolean
+        due_in_days:
+          type: integer
+          minimum: 0
+          maximum: 365
+          example: 3
+
+    HealthResponse:
+      type: object
+      required: [status, timestamp, version]
+      properties:
+        status:
+          type: string
+        timestamp:
+          type: string
+        version:
+          type: string
+
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+        error_code:
+          type: string
+        timestamp:
+          type: string
