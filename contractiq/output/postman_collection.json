@@ -1,0 +1,1715 @@
+{
+  "info": {
+    "_postman_id": "28865d81-cf43-4ef2-8695-a4c6f81ad985",
+    "name": "ContractIQ - ContractIQ PetStore API Tests",
+    "description": "Auto-generated test collection by ContractIQ\nAPI: ContractIQ PetStore API\nVersion: 1.0.0\nGenerated: 2026-09-03T12:51:08.245154+00:00",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /health",
+      "description": "Tests for GET /health",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid GET request to /health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid GET request to /health",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'status' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"status\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'version' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"version\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GET /api/v1/pets",
+      "description": "Tests for GET /api/v1/pets",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid GET request to /api/v1/pets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid GET request to /api/v1/pets",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "POST /api/v1/pets",
+      "description": "Tests for POST /api/v1/pets",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid POST request to /api/v1/pets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"Dog\",\n  \"age\": 3,\n  \"price\": 250.0,\n  \"status\": \"available\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid POST request to /api/v1/pets",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'name' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"name\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'species' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"species\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'age' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"age\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'price' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"price\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "// Store created resource ID for subsequent tests",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.id) {",
+                  "        pm.collectionVariables.set(\"pets_id\", jsonData.id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Empty body for POST /api/v1/pets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Empty body for POST /api/v1/pets",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Invalid 'name' for POST /api/v1/pets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n  \"species\": \"Dog\",\n  \"age\": 3,\n  \"price\": 250.0,\n  \"status\": \"available\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid 'name' for POST /api/v1/pets",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Invalid 'species' for POST /api/v1/pets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n  \"age\": 3,\n  \"price\": 250.0,\n  \"status\": \"available\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid 'species' for POST /api/v1/pets",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Invalid 'age' for POST /api/v1/pets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"Dog\",\n  \"age\": 31,\n  \"price\": 250.0,\n  \"status\": \"available\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid 'age' for POST /api/v1/pets",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Invalid 'status' for POST /api/v1/pets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"Dog\",\n  \"age\": 3,\n  \"price\": 250.0,\n  \"status\": \"__contractiq_invalid_enum_value__\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid 'status' for POST /api/v1/pets",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Invalid 'price' for POST /api/v1/pets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"Dog\",\n  \"age\": 3,\n  \"price\": 10000.01,\n  \"status\": \"available\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid 'price' for POST /api/v1/pets",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GET /api/v1/pets/{pet_id}",
+      "description": "Tests for GET /api/v1/pets/{pet_id}",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid GET request to /api/v1/pets/{pet_id}",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets/0fe6704c",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets",
+                "0fe6704c"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid GET request to /api/v1/pets/{pet_id}",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'name' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"name\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'species' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"species\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'age' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"age\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'price' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"price\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Invalid ID for /api/v1/pets/{pet_id}",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets/nonexistent-contractiq-999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets",
+                "nonexistent-contractiq-999"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid ID for /api/v1/pets/{pet_id}",
+                  "// Test Type: negative",
+                  "",
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PUT /api/v1/pets/{pet_id}",
+      "description": "Tests for PUT /api/v1/pets/{pet_id}",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid PUT request to /api/v1/pets/{pet_id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets/0fe6704c",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets",
+                "0fe6704c"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"Dog\",\n  \"age\": 3,\n  \"price\": 250.0,\n  \"status\": \"available\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid PUT request to /api/v1/pets/{pet_id}",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'name' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"name\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'species' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"species\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'age' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"age\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'price' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"price\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Invalid ID for /api/v1/pets/{pet_id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets/nonexistent-contractiq-999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets",
+                "nonexistent-contractiq-999"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"Dog\",\n  \"age\": 3,\n  \"price\": 250.0,\n  \"status\": \"available\",\n  \"tags\": [\n    \"friendly\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid ID for /api/v1/pets/{pet_id}",
+                  "// Test Type: negative",
+                  "",
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Empty body for PUT /api/v1/pets/{pet_id}",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets/0fe6704c",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets",
+                "0fe6704c"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Empty body for PUT /api/v1/pets/{pet_id}",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'name' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"name\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'species' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"species\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'age' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"age\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'price' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"price\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "DELETE /api/v1/pets/{pet_id}",
+      "description": "Tests for DELETE /api/v1/pets/{pet_id}",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid DELETE request to /api/v1/pets/{pet_id}",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets/{{token}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets",
+                "{{token}}"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid DELETE request to /api/v1/pets/{pet_id}",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  ""
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ: create a disposable resource for this",
+                  "// destructive test so it doesn't depend on state a",
+                  "// previous run left behind.",
+                  "var setupRequest = {",
+                  "    url: pm.collectionVariables.get('base_url') + '/api/v1/pets',",
+                  "    method: 'POST',",
+                  "    header: { 'Content-Type': 'application/json' },",
+                  "    body: {",
+                  "        mode: 'raw',",
+                  "        raw: JSON.stringify({\"name\": \"Buddy\", \"species\": \"Dog\", \"age\": 3, \"price\": 250.0, \"status\": \"available\", \"tags\": [\"friendly\"]})",
+                  "    }",
+                  "};",
+                  "",
+                  "pm.sendRequest(setupRequest, function (err, res) {",
+                  "    if (err) {",
+                  "        console.warn('ContractIQ setup request failed: ' + err);",
+                  "        return;",
+                  "    }",
+                  "    var json = res.json();",
+                  "    if (json && json['id'] !== undefined) {",
+                  "        pm.collectionVariables.set('token', String(json['id']));",
+                  "    } else {",
+                  "        console.warn('ContractIQ setup response missing capture field \"id\"');",
+                  "    }",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Invalid ID for /api/v1/pets/{pet_id}",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/pets/nonexistent-contractiq-999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pets",
+                "nonexistent-contractiq-999"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid ID for /api/v1/pets/{pet_id}",
+                  "// Test Type: negative",
+                  "",
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail'\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "POST /api/v1/orders",
+      "description": "Tests for POST /api/v1/orders",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid POST request to /api/v1/orders",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pet_id\": \"0fe6704c\",\n  \"quantity\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid POST request to /api/v1/orders",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'pet_id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"pet_id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'quantity' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"quantity\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'status' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"status\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'total_price' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"total_price\");",
+                  "});",
+                  "",
+                  "// Store created resource ID for subsequent tests",
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    if (jsonData.id) {",
+                  "        pm.collectionVariables.set(\"orders_id\", jsonData.id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Empty body for POST /api/v1/orders",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Empty body for POST /api/v1/orders",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[EDGE_CASE] Invalid 'quantity' for POST /api/v1/orders",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pet_id\": \"0fe6704c\",\n  \"quantity\": 11\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid 'quantity' for POST /api/v1/orders",
+                  "// Test Type: edge_case",
+                  "",
+                  "pm.test(\"Status code is 422\", function () {",
+                  "    pm.response.to.have.status(422);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GET /api/v1/orders",
+      "description": "Tests for GET /api/v1/orders",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid GET request to /api/v1/orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid GET request to /api/v1/orders",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GET /api/v1/orders/{order_id}",
+      "description": "Tests for GET /api/v1/orders/{order_id}",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid GET request to /api/v1/orders/{order_id}",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders/931b80b2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders",
+                "931b80b2"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid GET request to /api/v1/orders/{order_id}",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'pet_id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"pet_id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'quantity' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"quantity\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'id' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"id\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'status' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"status\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'total_price' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"total_price\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "[NEGATIVE] Invalid ID for /api/v1/orders/{order_id}",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders/nonexistent-contractiq-999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orders",
+                "nonexistent-contractiq-999"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Invalid ID for /api/v1/orders/{order_id}",
+                  "// Test Type: negative",
+                  "",
+                  "pm.test(\"Status code is 404\", function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'detail' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"detail\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'error_code' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"error_code\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GET /api/v1/stats",
+      "description": "Tests for GET /api/v1/stats",
+      "item": [
+        {
+          "name": "[POSITIVE] Valid GET request to /api/v1/stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "stats"
+              ]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "// ContractIQ Auto-Generated Tests for: Valid GET request to /api/v1/stats",
+                  "// Test Type: positive",
+                  "",
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response time is acceptable\", function () {",
+                  "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is valid JSON\", function () {",
+                  "    pm.response.to.be.json;",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.not.be.null;",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'total_pets' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"total_pets\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'total_orders' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"total_orders\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'pets_by_status' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"pets_by_status\");",
+                  "});",
+                  "",
+                  "pm.test(\"Response should contain 'timestamp' (declared required by the spec)\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"timestamp\");",
+                  "});",
+                  ""
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// ContractIQ Pre-request Script",
+          "console.log('Running: ' + pm.info.requestName);"
+        ]
+      }
+    }
+  ]
+}

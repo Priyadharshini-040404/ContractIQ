@@ -1,0 +1,855 @@
+{
+  "timestamp": "2026-09-03T12:51:09.496455+00:00",
+  "total_tests": 23,
+  "passed": 23,
+  "failed": 0,
+  "skipped": 0,
+  "pass_rate": "100.0%",
+  "total_duration_seconds": 0.04,
+  "results": [
+    {
+      "test_id": "health_check_positive_01",
+      "test_name": "Valid GET request to /health",
+      "test_type": "positive",
+      "method": "GET",
+      "url": "http://localhost:8000/health",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "3ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 3.32,
+      "response_body": {
+        "status": "healthy",
+        "timestamp": "2026-09-03T12:51:09.459538+00:00",
+        "version": "1.0.0"
+      }
+    },
+    {
+      "test_id": "list_pets_positive_01",
+      "test_name": "Valid GET request to /api/v1/pets",
+      "test_type": "positive",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "2ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 1.71,
+      "response_body": [
+        {
+          "name": "Buddy",
+          "species": "Dog",
+          "age": 3,
+          "status": "available",
+          "tags": [
+            "friendly",
+            "trained"
+          ],
+          "price": 500.0,
+          "id": "487ff5c4",
+          "created_at": "2026-09-03T12:51:05.725326+00:00"
+        },
+        {
+          "name": "Whiskers",
+          "species": "Cat",
+          "age": 2,
+          "status": "available",
+          "tags": [
+            "indoor",
+            "playful"
+          ],
+          "price": 300.0,
+          "id": "8fb2b052",
+          "created_at": "2026-09-03T12:51:05.725353+00:00"
+        },
+        {
+          "name": "Goldie",
+          "species": "Fish",
+          "age": 1,
+          "status": "pending",
+          "tags": [
+            "aquatic"
+          ],
+          "price": 50.0,
+          "id": "f36e0797",
+          "created_at": "2026-09-03T12:51:05.725360+00:00"
+        },
+        {
+          "name": "Buddy",
+          "species": "Dog",
+          "age": 3,
+          "status": "pending",
+          "tags": [
+            "friendly"
+          ],
+          "price": 250.0,
+          "id": "0fe6704c",
+          "created_at": "2026-09-03T12:51:08.236658+00:00"
+        },
+        {
+          "name": "Buddy",
+          "species": "Dog",
+          "age": 3,
+          "status": "pending",
+          "tags": [
+            "friendly"
+          ],
+          "price": 250.0,
+          "id": "a69afbe3",
+          "created_at": "2026-09-03T12:51:08.242278+00:00"
+        }
+      ]
+    },
+    {
+      "test_id": "create_pet_positive_01",
+      "test_name": "Valid POST request to /api/v1/pets",
+      "test_type": "positive",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201,
+          "actual": 201,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 201,
+      "response_time_ms": 1.4,
+      "response_body": {
+        "name": "Buddy",
+        "species": "Dog",
+        "age": 3,
+        "status": "available",
+        "tags": [
+          "friendly"
+        ],
+        "price": 250.0,
+        "id": "a3ccaab4",
+        "created_at": "2026-09-03T12:51:09.463210+00:00"
+      }
+    },
+    {
+      "test_id": "create_pet_edge_01",
+      "test_name": "Empty body for POST /api/v1/pets",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.46,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.464671+00:00"
+      }
+    },
+    {
+      "test_id": "create_pet_boundary_01",
+      "test_name": "Invalid 'name' for POST /api/v1/pets",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.32,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.466133+00:00"
+      }
+    },
+    {
+      "test_id": "create_pet_boundary_02",
+      "test_name": "Invalid 'species' for POST /api/v1/pets",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.46,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.467475+00:00"
+      }
+    },
+    {
+      "test_id": "create_pet_boundary_03",
+      "test_name": "Invalid 'age' for POST /api/v1/pets",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.47,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.469177+00:00"
+      }
+    },
+    {
+      "test_id": "create_pet_boundary_04",
+      "test_name": "Invalid 'status' for POST /api/v1/pets",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.22,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.470403+00:00"
+      }
+    },
+    {
+      "test_id": "create_pet_boundary_06",
+      "test_name": "Invalid 'price' for POST /api/v1/pets",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/pets",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "2ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.6,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.471833+00:00"
+      }
+    },
+    {
+      "test_id": "get_pet_positive_01",
+      "test_name": "Valid GET request to /api/v1/pets/{pet_id}",
+      "test_type": "positive",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/pets/0fe6704c",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 1.22,
+      "response_body": {
+        "name": "Buddy",
+        "species": "Dog",
+        "age": 3,
+        "status": "pending",
+        "tags": [
+          "friendly"
+        ],
+        "price": 250.0,
+        "id": "0fe6704c",
+        "created_at": "2026-09-03T12:51:08.236658+00:00"
+      }
+    },
+    {
+      "test_id": "get_pet_negative_01",
+      "test_name": "Invalid ID for /api/v1/pets/{pet_id}",
+      "test_type": "negative",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/pets/nonexistent-contractiq-999",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 404,
+          "actual": 404,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 404,
+      "response_time_ms": 1.15,
+      "response_body": {
+        "detail": "Pet nonexistent-contractiq-999 not found",
+        "error_code": "NOT_FOUND",
+        "timestamp": "2026-09-03T12:51:09.474469+00:00"
+      }
+    },
+    {
+      "test_id": "update_pet_positive_01",
+      "test_name": "Valid PUT request to /api/v1/pets/{pet_id}",
+      "test_type": "positive",
+      "method": "PUT",
+      "url": "http://localhost:8000/api/v1/pets/0fe6704c",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "4ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 3.62,
+      "response_body": {
+        "name": "Buddy",
+        "species": "Dog",
+        "age": 3,
+        "status": "available",
+        "tags": [
+          "friendly"
+        ],
+        "price": 250.0,
+        "id": "0fe6704c",
+        "created_at": "2026-09-03T12:51:08.236658+00:00"
+      }
+    },
+    {
+      "test_id": "update_pet_negative_01",
+      "test_name": "Invalid ID for /api/v1/pets/{pet_id}",
+      "test_type": "negative",
+      "method": "PUT",
+      "url": "http://localhost:8000/api/v1/pets/nonexistent-contractiq-999",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 404,
+          "actual": 404,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 404,
+      "response_time_ms": 1.36,
+      "response_body": {
+        "detail": "Pet nonexistent-contractiq-999 not found",
+        "error_code": "NOT_FOUND",
+        "timestamp": "2026-09-03T12:51:09.479533+00:00"
+      }
+    },
+    {
+      "test_id": "update_pet_edge_01",
+      "test_name": "Empty body for PUT /api/v1/pets/{pet_id}",
+      "test_type": "edge_case",
+      "method": "PUT",
+      "url": "http://localhost:8000/api/v1/pets/0fe6704c",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 1.38,
+      "response_body": {
+        "name": "Buddy",
+        "species": "Dog",
+        "age": 3,
+        "status": "available",
+        "tags": [
+          "friendly"
+        ],
+        "price": 250.0,
+        "id": "0fe6704c",
+        "created_at": "2026-09-03T12:51:08.236658+00:00"
+      }
+    },
+    {
+      "test_id": "delete_pet_positive_01",
+      "test_name": "Valid DELETE request to /api/v1/pets/{pet_id}",
+      "test_type": "positive",
+      "method": "DELETE",
+      "url": "http://localhost:8000/api/v1/pets/fa0e04e0",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 204,
+          "actual": 204,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 204,
+      "response_time_ms": 1.11,
+      "response_body": ""
+    },
+    {
+      "test_id": "delete_pet_negative_01",
+      "test_name": "Invalid ID for /api/v1/pets/{pet_id}",
+      "test_type": "negative",
+      "method": "DELETE",
+      "url": "http://localhost:8000/api/v1/pets/nonexistent-contractiq-999",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 404,
+          "actual": 404,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 404,
+      "response_time_ms": 1.2,
+      "response_body": {
+        "detail": "Pet nonexistent-contractiq-999 not found",
+        "error_code": "NOT_FOUND",
+        "timestamp": "2026-09-03T12:51:09.484821+00:00"
+      }
+    },
+    {
+      "test_id": "create_order_positive_01",
+      "test_name": "Valid POST request to /api/v1/orders",
+      "test_type": "positive",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/orders",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 201,
+          "actual": 201,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 201,
+      "response_time_ms": 1.41,
+      "response_body": {
+        "pet_id": "0fe6704c",
+        "quantity": 1,
+        "id": "41eba8f8",
+        "status": "placed",
+        "total_price": 250.0,
+        "created_at": "2026-09-03T12:51:09.486283+00:00"
+      }
+    },
+    {
+      "test_id": "create_order_edge_01",
+      "test_name": "Empty body for POST /api/v1/orders",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/orders",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "2ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.9,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.487834+00:00"
+      }
+    },
+    {
+      "test_id": "create_order_boundary_02",
+      "test_name": "Invalid 'quantity' for POST /api/v1/orders",
+      "test_type": "edge_case",
+      "method": "POST",
+      "url": "http://localhost:8000/api/v1/orders",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 422,
+          "actual": 422,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 422,
+      "response_time_ms": 1.4,
+      "response_body": {
+        "detail": "Request validation failed",
+        "error_code": "VALIDATION_ERROR",
+        "timestamp": "2026-09-03T12:51:09.489630+00:00"
+      }
+    },
+    {
+      "test_id": "list_orders_positive_01",
+      "test_name": "Valid GET request to /api/v1/orders",
+      "test_type": "positive",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/orders",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "3ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 2.75,
+      "response_body": [
+        {
+          "pet_id": "0fe6704c",
+          "quantity": 1,
+          "id": "931b80b2",
+          "status": "placed",
+          "total_price": 250.0,
+          "created_at": "2026-09-03T12:51:08.239816+00:00"
+        },
+        {
+          "pet_id": "a69afbe3",
+          "quantity": 1,
+          "id": "e5b8d9d9",
+          "status": "placed",
+          "total_price": 250.0,
+          "created_at": "2026-09-03T12:51:08.244086+00:00"
+        },
+        {
+          "pet_id": "0fe6704c",
+          "quantity": 1,
+          "id": "41eba8f8",
+          "status": "placed",
+          "total_price": 250.0,
+          "created_at": "2026-09-03T12:51:09.486283+00:00"
+        }
+      ]
+    },
+    {
+      "test_id": "get_order_positive_01",
+      "test_name": "Valid GET request to /api/v1/orders/{order_id}",
+      "test_type": "positive",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/orders/931b80b2",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 1.13,
+      "response_body": {
+        "pet_id": "0fe6704c",
+        "quantity": 1,
+        "id": "931b80b2",
+        "status": "placed",
+        "total_price": 250.0,
+        "created_at": "2026-09-03T12:51:08.239816+00:00"
+      }
+    },
+    {
+      "test_id": "get_order_negative_01",
+      "test_name": "Invalid ID for /api/v1/orders/{order_id}",
+      "test_type": "negative",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/orders/nonexistent-contractiq-999",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 404,
+          "actual": 404,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        },
+        {
+          "type": "response_contains",
+          "field": "detail",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 404,
+      "response_time_ms": 1.08,
+      "response_body": {
+        "detail": "Order nonexistent-contractiq-999 not found",
+        "error_code": "NOT_FOUND",
+        "timestamp": "2026-09-03T12:51:09.494764+00:00"
+      }
+    },
+    {
+      "test_id": "get_stats_positive_01",
+      "test_name": "Valid GET request to /api/v1/stats",
+      "test_type": "positive",
+      "method": "GET",
+      "url": "http://localhost:8000/api/v1/stats",
+      "status": "passed",
+      "assertions": [
+        {
+          "type": "status_code",
+          "expected": 200,
+          "actual": 200,
+          "passed": true
+        },
+        {
+          "type": "response_time",
+          "expected": "<5000ms",
+          "actual": "1ms",
+          "passed": true
+        }
+      ],
+      "actual_status_code": 200,
+      "response_time_ms": 1.19,
+      "response_body": {
+        "total_pets": 6,
+        "total_orders": 3,
+        "pets_by_status": {
+          "available": 3,
+          "pending": 3,
+          "sold": 0
+        },
+        "timestamp": "2026-09-03T12:51:09.495924+00:00"
+      }
+    }
+  ],
+  "failures": [],
+  "base_url": "http://localhost:8000"
+}
