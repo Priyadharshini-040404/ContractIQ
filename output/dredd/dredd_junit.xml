@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Dredd Tests" tests="17" failures="0" errors="0" skip="0" timestamp="Wed, 02 Sep 2026 08:27:57 GMT" time="0.283">
+<testcase name="GET (200) /health" time="0.06"/>
+<testcase name="GET (200) /api/v1/pets" time="0.014"/>
+<testcase name="POST (201) /api/v1/pets" time="0.006"/>
+<testcase name="POST (422) /api/v1/pets" time="0.009"/>
+<testcase name="GET (200) /api/v1/pets/sample-pet-id-001" time="0.006"/>
+<testcase name="GET (404) /api/v1/pets/sample-pet-id-001" time="0.014"/>
+<testcase name="PUT (200) /api/v1/pets/sample-pet-id-001" time="0.004"/>
+<testcase name="PUT (404) /api/v1/pets/sample-pet-id-001" time="0.011"/>
+<testcase name="DELETE (204) /api/v1/pets/sample-pet-id-001" time="0.005"/>
+<testcase name="DELETE (404) /api/v1/pets/sample-pet-id-001" time="0.004"/>
+<testcase name="POST (201) /api/v1/orders" time="0.004"/>
+<testcase name="POST (404) /api/v1/orders" time="0.006"/>
+<testcase name="POST (422) /api/v1/orders" time="0.006"/>
+<testcase name="GET (200) /api/v1/orders" time="0.008"/>
+<testcase name="GET (200) /api/v1/orders/sample-order-id-001" time="0.004"/>
+<testcase name="GET (404) /api/v1/orders/sample-order-id-001" time="0.02"/>
+<testcase name="GET (200) /api/v1/stats" time="0.014"/>
+</testsuite>

@@ -1,0 +1,904 @@
+{
+  "api_info": {
+    "title": "ContractIQ PetStore API",
+    "version": "1.0.0",
+    "description": "A lightweight PetStore API for intelligent API testing and validation",
+    "openapi_version": "3.1.0"
+  },
+  "server_url": "http://localhost:8000",
+  "test_suites": [
+    {
+      "endpoint": "GET /health",
+      "operation_id": "health_check",
+      "test_cases": [
+        {
+          "test_id": "health_check_positive_01",
+          "name": "Valid GET request to /health",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/health",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/pets",
+      "operation_id": "list_pets",
+      "test_cases": [
+        {
+          "test_id": "list_pets_positive_01",
+          "name": "Valid GET request to /api/v1/pets",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/pets",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "POST /api/v1/pets",
+      "operation_id": "create_pet",
+      "test_cases": [
+        {
+          "test_id": "create_pet_positive_01",
+          "name": "Valid POST request to /api/v1/pets",
+          "type": "positive",
+          "description": "Test valid POST request",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/pets",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "name": "test_name",
+              "species": "test_species",
+              "age": 1,
+              "status": "available",
+              "tags": [
+                "test_item"
+              ],
+              "price": 100.0
+            }
+          },
+          "expected": {
+            "status_code": 201,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "create_pet_edge_01",
+          "name": "Empty body for POST /api/v1/pets",
+          "type": "edge_case",
+          "description": "Test with empty request body \u2014 expects validation error",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/pets",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {}
+          },
+          "expected": {
+            "status_code": 422,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/pets/{pet_id}",
+      "operation_id": "get_pet",
+      "test_cases": [
+        {
+          "test_id": "get_pet_positive_01",
+          "name": "Valid GET request to /api/v1/pets/{pet_id}",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/pets/a7e1d1f9",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "get_pet_negative_01",
+          "name": "Invalid ID for /api/v1/pets/{pet_id}",
+          "type": "negative",
+          "description": "Test with non-existent ID",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/pets/nonexistent999",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 404,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "PUT /api/v1/pets/{pet_id}",
+      "operation_id": "update_pet",
+      "test_cases": [
+        {
+          "test_id": "update_pet_positive_01",
+          "name": "Valid PUT request to /api/v1/pets/{pet_id}",
+          "type": "positive",
+          "description": "Test valid PUT request",
+          "request": {
+            "method": "PUT",
+            "path": "/api/v1/pets/a7e1d1f9",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "name": "test_name",
+              "species": "test_species",
+              "age": 1,
+              "status": "available",
+              "tags": [
+                "test_item"
+              ],
+              "price": 100.0
+            }
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "update_pet_negative_01",
+          "name": "Invalid ID for /api/v1/pets/{pet_id}",
+          "type": "negative",
+          "description": "Test with non-existent ID",
+          "request": {
+            "method": "PUT",
+            "path": "/api/v1/pets/nonexistent999",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "name": "test_name",
+              "species": "test_species",
+              "age": 1,
+              "status": "available",
+              "tags": [
+                "test_item"
+              ],
+              "price": 100.0
+            }
+          },
+          "expected": {
+            "status_code": 404,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "update_pet_edge_01",
+          "name": "Empty body for PUT /api/v1/pets/{pet_id}",
+          "type": "edge_case",
+          "description": "Test with empty request body \u2014 no required fields, so this is a valid no-op",
+          "request": {
+            "method": "PUT",
+            "path": "/api/v1/pets/a7e1d1f9",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {}
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "DELETE /api/v1/pets/{pet_id}",
+      "operation_id": "delete_pet",
+      "test_cases": [
+        {
+          "test_id": "delete_pet_positive_01",
+          "name": "Valid DELETE request to /api/v1/pets/{pet_id}",
+          "type": "positive",
+          "description": "Test valid DELETE request",
+          "request": {
+            "method": "DELETE",
+            "path": "/api/v1/pets/d6dde008",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 204,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "delete_pet_negative_01",
+          "name": "Invalid ID for /api/v1/pets/{pet_id}",
+          "type": "negative",
+          "description": "Test with non-existent ID",
+          "request": {
+            "method": "DELETE",
+            "path": "/api/v1/pets/nonexistent999",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 404,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "POST /api/v1/orders",
+      "operation_id": "create_order",
+      "test_cases": [
+        {
+          "test_id": "create_order_positive_01",
+          "name": "Valid POST request to /api/v1/orders",
+          "type": "positive",
+          "description": "Test valid POST request",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/orders",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {
+              "pet_id": "a7e1d1f9",
+              "quantity": 2
+            }
+          },
+          "expected": {
+            "status_code": 201,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "create_order_edge_01",
+          "name": "Empty body for POST /api/v1/orders",
+          "type": "edge_case",
+          "description": "Test with empty request body \u2014 expects validation error",
+          "request": {
+            "method": "POST",
+            "path": "/api/v1/orders",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": {}
+          },
+          "expected": {
+            "status_code": 422,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/orders",
+      "operation_id": "list_orders",
+      "test_cases": [
+        {
+          "test_id": "list_orders_positive_01",
+          "name": "Valid GET request to /api/v1/orders",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/orders",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/orders/{order_id}",
+      "operation_id": "get_order",
+      "test_cases": [
+        {
+          "test_id": "get_order_positive_01",
+          "name": "Valid GET request to /api/v1/orders/{order_id}",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/orders/7954f979",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        },
+        {
+          "test_id": "get_order_negative_01",
+          "name": "Invalid ID for /api/v1/orders/{order_id}",
+          "type": "negative",
+          "description": "Test with non-existent ID",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/orders/nonexistent999",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 404,
+            "response_body_contains": [
+              "detail"
+            ],
+            "response_type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "GET /api/v1/stats",
+      "operation_id": "get_stats",
+      "test_cases": [
+        {
+          "test_id": "get_stats_positive_01",
+          "name": "Valid GET request to /api/v1/stats",
+          "type": "positive",
+          "description": "Test valid GET request",
+          "request": {
+            "method": "GET",
+            "path": "/api/v1/stats",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "query_params": {},
+            "body": null
+          },
+          "expected": {
+            "status_code": 200,
+            "response_body_contains": [],
+            "response_type": "json"
+          }
+        }
+      ]
+    }
+  ],
+  "assertions": [
+    {
+      "test_id": "health_check_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "list_pets_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "create_pet_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 201,
+          "description": "Status code should be 201"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "create_pet_edge_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 422,
+          "description": "Status code should be 422"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "get_pet_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "get_pet_negative_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 404,
+          "description": "Status code should be 404"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "update_pet_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "update_pet_negative_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 404,
+          "description": "Status code should be 404"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "update_pet_edge_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "delete_pet_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 204,
+          "description": "Status code should be 204"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "delete_pet_negative_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 404,
+          "description": "Status code should be 404"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "create_order_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 201,
+          "description": "Status code should be 201"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "create_order_edge_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 422,
+          "description": "Status code should be 422"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "list_orders_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "get_order_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "get_order_negative_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 404,
+          "description": "Status code should be 404"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    },
+    {
+      "test_id": "get_stats_positive_01",
+      "assertions": [
+        {
+          "type": "status_code",
+          "field": null,
+          "operator": "equals",
+          "expected_value": 200,
+          "description": "Status code should be 200"
+        },
+        {
+          "type": "response_body",
+          "field": null,
+          "operator": "type_check",
+          "expected_value": "dict",
+          "description": "Response should be valid JSON"
+        },
+        {
+          "type": "response_time",
+          "field": null,
+          "operator": "less_than",
+          "expected_value": 5000,
+          "description": "Response time should be under 5 seconds"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "total_endpoints": 10,
+    "total_test_cases": 17,
+    "total_assertions": 51,
+    "generation_method": "template",
+    "fallback_reason": "ai_call_failed: 403 POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?%24alt=json%3Benum-encoding%3Dint: Host not in allowlist: generativelanguage.googleapis.com. Add this host to your network egress settings to allow access."
+  }
+}

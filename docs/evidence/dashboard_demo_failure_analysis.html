@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContractIQ — Validation Dashboard</title>
+<style>
+
+:root {
+    --bg: #0B1E33;
+    --bg-grid: rgba(255,255,255,0.035);
+    --panel: #10263F;
+    --panel-border: #1F3B57;
+    --text: #EAF2F8;
+    --muted: #82A0BA;
+    --cyan: #5FD8CB;
+    --amber: #E8604C;
+    --amber-dim: #E3A857;
+    --coral: #E8604C;
+    --violet: #8098FF;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+    background: var(--bg);
+    background-image:
+        linear-gradient(var(--bg-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+}
+.mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
+.dim { color: var(--muted); }
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--panel-border);
+    background: rgba(16,38,63,0.6);
+    backdrop-filter: blur(6px);
+}
+.brand { display: flex; align-items: baseline; gap: 8px; }
+.brand-mark {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--violet);
+    color: #0B1E33;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 3px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.03em;
+}
+.brand-name { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+.topbar-meta { color: var(--muted); font-size: 13px; margin-left: 8px; }
+.topbar-meta .sep { margin: 0 8px; opacity: 0.5; }
+.status-pill {
+    margin-left: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+.pill-good { background: rgba(95,216,203,0.12); color: var(--cyan); border-color: rgba(95,216,203,0.35); }
+.pill-warn { background: rgba(227,168,87,0.12); color: var(--amber-dim); border-color: rgba(227,168,87,0.35); }
+.pill-critical { background: rgba(232,96,76,0.14); color: var(--coral); border-color: rgba(232,96,76,0.4); }
+.pill-muted { background: rgba(130,160,186,0.1); color: var(--muted); border-color: rgba(130,160,186,0.3); }
+
+main { max-width: 1240px; margin: 0 auto; padding: 32px 28px 48px; }
+
+.hero { margin-bottom: 32px; }
+.pipeline-schematic {
+    display: flex;
+    align-items: stretch;
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    overflow-x: auto;
+}
+.stage-node {
+    flex: 1;
+    min-width: 150px;
+    padding: 22px 18px;
+    text-align: left;
+}
+.stage-value {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--cyan);
+}
+.stage-label { font-size: 12.5px; color: var(--text); margin-top: 4px; }
+.stage-sub { font-size: 11.5px; color: var(--muted); margin-top: 2px; text-transform: lowercase; }
+.stage-connector {
+    width: 1px;
+    background: var(--panel-border);
+    align-self: center;
+    height: 60%;
+    margin: 0 2px;
+}
+
+.grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 20px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+.col-main, .col-side { display: flex; flex-direction: column; gap: 20px; }
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 6px;
+    padding: 20px 22px;
+}
+.panel h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin: 0 0 14px;
+    font-weight: 600;
+}
+
+.empty-state { color: var(--muted); font-size: 13.5px; padding: 8px 0; }
+.empty-state.good { color: var(--cyan); }
+.empty-state code { font-family: ui-monospace, monospace; background: rgba(255,255,255,0.06); padding: 2px 5px; border-radius: 3px; }
+
+.table-controls { display: flex; gap: 8px; margin-bottom: 12px; }
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--panel-border);
+    color: var(--muted);
+    font-size: 12px;
+    font-family: ui-monospace, monospace;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.filter-btn.active { color: var(--text); border-color: var(--violet); background: rgba(128,152,255,0.1); }
+
+.test-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.test-table th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--panel-border);
+}
+.test-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.status-pass td:first-child { color: var(--cyan); }
+.status-fail td:first-child { color: var(--coral); }
+.type-chip {
+    font-size: 10.5px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: rgba(130,160,186,0.12);
+    color: var(--muted);
+    text-transform: capitalize;
+}
+
+.donut-panel { display: flex; justify-content: center; }
+.donut { width: 160px; height: 160px; }
+.donut-track { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 12; }
+.donut-fill {
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 12;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 70px 70px;
+    transition: stroke-dashoffset 0.6s ease;
+}
+.donut-number { fill: var(--text); font-size: 26px; font-weight: 700; text-anchor: middle; font-family: ui-monospace, monospace; }
+.donut-caption { fill: var(--muted); font-size: 9px; text-anchor: middle; letter-spacing: 0.08em; }
+
+.sev-breakdown { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.sev-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.sev-label { width: 56px; text-transform: capitalize; color: var(--muted); }
+.sev-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.sev-fill { height: 100%; border-radius: 3px; }
+.sev-count { width: 20px; text-align: right; font-family: ui-monospace, monospace; }
+
+.failure-cards { display: flex; flex-direction: column; gap: 10px; }
+.failure-card {
+    border: 1px solid var(--panel-border);
+    border-left: 3px solid var(--muted);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.02);
+}
+.failure-card summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12.5px;
+}
+.failure-card summary::-webkit-details-marker { display: none; }
+.sev-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0B1E33;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+.method-badge { margin-left: auto; font-size: 10.5px; color: var(--muted); }
+.failure-body { padding: 0 14px 14px; font-size: 12.5px; }
+.explanation { color: var(--text); margin: 4px 0 10px; }
+.detail-row { margin-bottom: 6px; color: var(--muted); }
+.detail-row strong { color: var(--text); font-weight: 500; }
+.action-chip {
+    display: inline-block;
+    background: rgba(128,152,255,0.12);
+    color: var(--violet);
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin: 2px 4px 2px 0;
+}
+
+.contract-panel { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+.contract-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.02);
+    font-size: 12.5px;
+}
+.contract-row.status-pass .contract-status { color: var(--cyan); }
+.contract-row.status-fail .contract-status { color: var(--coral); }
+.contract-row.status-skip .contract-status { color: var(--muted); }
+.contract-status { font-family: ui-monospace, monospace; font-weight: 600; }
+.contract-overall { font-size: 12.5px; color: var(--muted); }
+.contract-overall strong { color: var(--text); }
+
+.cov-total { margin-bottom: 14px; }
+.cov-total-number { font-family: ui-monospace, monospace; font-size: 28px; font-weight: 700; }
+.cov-total-label { font-size: 11.5px; color: var(--muted); margin-left: 8px; }
+.cov-files { display: flex; flex-direction: column; gap: 7px; }
+.cov-row { display: flex; align-items: center; gap: 8px; font-size: 11.5px; }
+.cov-path { flex: 0 0 46%; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cov-track { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+.cov-fill { height: 100%; }
+.cov-pct { width: 34px; text-align: right; }
+
+footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11.5px;
+    padding: 24px 0 32px;
+}
+footer .sep { margin: 0 8px; opacity: 0.5; }
+
+</style>
+</head>
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-mark">CIQ</span>
+            <span class="brand-name">ContractIQ</span>
+        </div>
+        <div class="topbar-meta mono">
+            <span>ContractIQ PetStore API</span>
+            <span class="sep">·</span>
+            <span>generated 2026-09-02 15:22:01 UTC</span>
+        </div>
+        <div class="status-pill pill-warn">DEGRADED</div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="pipeline-schematic">
+                
+                <div class="stage-node">
+                    <div class="stage-value">10</div>
+                    <div class="stage-label">Endpoints Parsed</div>
+                    <div class="stage-sub">from OpenAPI spec</div>
+                </div>
+            
+                <div class="stage-connector"></div>
+                <div class="stage-node">
+                    <div class="stage-value">17</div>
+                    <div class="stage-label">Tests Generated</div>
+                    <div class="stage-sub">template</div>
+                </div>
+            
+                <div class="stage-connector"></div>
+                <div class="stage-node">
+                    <div class="stage-value">51</div>
+                    <div class="stage-label">Assertions Generated</div>
+                    <div class="stage-sub">positive · negative · edge</div>
+                </div>
+            
+                <div class="stage-connector"></div>
+                <div class="stage-node">
+                    <div class="stage-value">15/17</div>
+                    <div class="stage-label">Executed</div>
+                    <div class="stage-sub">88.2%</div>
+                </div>
+            
+                <div class="stage-connector"></div>
+                <div class="stage-node">
+                    <div class="stage-value">PASSED</div>
+                    <div class="stage-label">Contract Validation</div>
+                    <div class="stage-sub">Schemathesis + Dredd</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid">
+            <div class="col-main">
+                <div class="panel">
+                    <h2>Test Execution</h2>
+                    
+        <div class="table-controls">
+            <button class="filter-btn active" data-filter="all">All (17)</button>
+            <button class="filter-btn" data-filter="passed">Passed (15)</button>
+            <button class="filter-btn" data-filter="failed">Failed (2)</button>
+        </div>
+        <table class="test-table" id="test-table">
+            <thead>
+                <tr>
+                    <th></th><th>Method</th><th>Test ID</th><th>Name</th><th>Type</th><th>Status</th><th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">POST</td>
+                    <td class="mono">create_order_edge_01</td>
+                    <td>Empty body for POST /api/v1/orders</td>
+                    <td><span class="type-chip type-edge_case">edge_case</span></td>
+                    <td class="mono">422</td>
+                    <td class="mono dim">2.03 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">POST</td>
+                    <td class="mono">create_order_positive_01</td>
+                    <td>Valid POST request to /api/v1/orders</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">201</td>
+                    <td class="mono dim">2.13 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">POST</td>
+                    <td class="mono">create_pet_edge_01</td>
+                    <td>Empty body for POST /api/v1/pets</td>
+                    <td><span class="type-chip type-edge_case">edge_case</span></td>
+                    <td class="mono">422</td>
+                    <td class="mono dim">1.78 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">POST</td>
+                    <td class="mono">create_pet_positive_01</td>
+                    <td>Valid POST request to /api/v1/pets</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">201</td>
+                    <td class="mono dim">2.03 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">DELETE</td>
+                    <td class="mono">delete_pet_negative_01</td>
+                    <td>Invalid ID for /api/v1/pets/{pet_id}</td>
+                    <td><span class="type-chip type-negative">negative</span></td>
+                    <td class="mono">404</td>
+                    <td class="mono dim">1.65 ms</td>
+                </tr>
+            
+                <tr class="status-fail" data-status="failed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">DELETE</td>
+                    <td class="mono">delete_pet_positive_01</td>
+                    <td>Valid DELETE request to /api/v1/pets/{pet_id}</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">404</td>
+                    <td class="mono dim">3.2 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">get_order_negative_01</td>
+                    <td>Invalid ID for /api/v1/orders/{order_id}</td>
+                    <td><span class="type-chip type-negative">negative</span></td>
+                    <td class="mono">404</td>
+                    <td class="mono dim">1.76 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">get_order_positive_01</td>
+                    <td>Valid GET request to /api/v1/orders/{order_id}</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">200</td>
+                    <td class="mono dim">1.83 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">get_pet_negative_01</td>
+                    <td>Invalid ID for /api/v1/pets/{pet_id}</td>
+                    <td><span class="type-chip type-negative">negative</span></td>
+                    <td class="mono">404</td>
+                    <td class="mono dim">1.45 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">get_pet_positive_01</td>
+                    <td>Valid GET request to /api/v1/pets/{pet_id}</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">200</td>
+                    <td class="mono dim">1.52 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">get_stats_positive_01</td>
+                    <td>Valid GET request to /api/v1/stats</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">200</td>
+                    <td class="mono dim">1.77 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">health_check_positive_01</td>
+                    <td>Valid GET request to /health</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">200</td>
+                    <td class="mono dim">3.96 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">list_orders_positive_01</td>
+                    <td>Valid GET request to /api/v1/orders</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">200</td>
+                    <td class="mono dim">1.92 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">GET</td>
+                    <td class="mono">list_pets_positive_01</td>
+                    <td>Valid GET request to /api/v1/pets</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">200</td>
+                    <td class="mono dim">2.22 ms</td>
+                </tr>
+            
+                <tr class="status-fail" data-status="failed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">PUT</td>
+                    <td class="mono">update_pet_edge_01</td>
+                    <td>Empty body for PUT /api/v1/pets/{pet_id}</td>
+                    <td><span class="type-chip type-edge_case">edge_case</span></td>
+                    <td class="mono">422</td>
+                    <td class="mono dim">4.1 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">PUT</td>
+                    <td class="mono">update_pet_negative_01</td>
+                    <td>Invalid ID for /api/v1/pets/{pet_id}</td>
+                    <td><span class="type-chip type-negative">negative</span></td>
+                    <td class="mono">404</td>
+                    <td class="mono dim">2.01 ms</td>
+                </tr>
+            
+                <tr class="status-pass" data-status="passed">
+                    <td class="mono dim">●</td>
+                    <td class="mono">PUT</td>
+                    <td class="mono">update_pet_positive_01</td>
+                    <td>Valid PUT request to /api/v1/pets/{pet_id}</td>
+                    <td><span class="type-chip type-positive">positive</span></td>
+                    <td class="mono">200</td>
+                    <td class="mono dim">1.8 ms</td>
+                </tr>
+            </tbody>
+        </table>
+        
+                </div>
+            </div>
+
+            <div class="col-side">
+                <div class="panel donut-panel">
+                    
+        <svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Pass rate 88.2 percent">
+            <circle cx="70" cy="70" r="54" class="donut-track" />
+            <circle cx="70" cy="70" r="54" class="donut-fill"
+                stroke-dasharray="339.3"
+                stroke-dashoffset="39.9" />
+            <text x="70" y="64" class="donut-number">88%</text>
+            <text x="70" y="84" class="donut-caption">PASS RATE</text>
+        </svg>
+        
+                </div>
+
+                <div class="panel">
+                    <h2>AI Failure Analysis</h2>
+                    
+        <div class="sev-breakdown">
+                <div class="sev-row">
+                    <span class="sev-label">critical</span>
+                    <div class="sev-track"><div class="sev-fill" style="width:0%;background:var(--coral)"></div></div>
+                    <span class="sev-count">0</span>
+                </div>
+            
+                <div class="sev-row">
+                    <span class="sev-label">high</span>
+                    <div class="sev-track"><div class="sev-fill" style="width:100%;background:var(--amber)"></div></div>
+                    <span class="sev-count">1</span>
+                </div>
+            
+                <div class="sev-row">
+                    <span class="sev-label">medium</span>
+                    <div class="sev-track"><div class="sev-fill" style="width:100%;background:var(--amber-dim)"></div></div>
+                    <span class="sev-count">1</span>
+                </div>
+            
+                <div class="sev-row">
+                    <span class="sev-label">low</span>
+                    <div class="sev-track"><div class="sev-fill" style="width:0%;background:var(--muted)"></div></div>
+                    <span class="sev-count">0</span>
+                </div>
+            </div>
+        <div class="failure-cards">
+            <details class="failure-card" style="border-left-color:var(--amber-dim)">
+                <summary>
+                    <span class="sev-tag" style="background:var(--amber-dim)">medium</span>
+                    <span class="mono">update_pet_edge_01</span>
+                    <span class="method-badge">Rule-based</span>
+                </summary>
+                <div class="failure-body">
+                    <p class="explanation">The test &#x27;Empty body for PUT /api/v1/pets/{pet_id}&#x27; failed because validation error. request body failed schema validation. This indicates a contract deviation.</p>
+                    <div class="detail-row"><strong>Root cause:</strong> Validation error. Request body failed schema validation.</div>
+                    <div class="detail-row"><strong>Contract mismatch:</strong> Request payload doesn&#x27;t match schema requirements</div>
+                    <div class="detail-row"><strong>Recommended actions:</strong> <span class="action-chip">Review request body against schema</span><span class="action-chip">Check required fields</span><span class="action-chip">Validate data types</span></div>
+                </div>
+            </details>
+            
+            <details class="failure-card" style="border-left-color:var(--amber)">
+                <summary>
+                    <span class="sev-tag" style="background:var(--amber)">high</span>
+                    <span class="mono">delete_pet_positive_01</span>
+                    <span class="method-badge">Rule-based</span>
+                </summary>
+                <div class="failure-body">
+                    <p class="explanation">The test &#x27;Valid DELETE request to /api/v1/pets/{pet_id}&#x27; failed because resource not found. expected 204 but got 404. This indicates a contract deviation.</p>
+                    <div class="detail-row"><strong>Root cause:</strong> Resource not found. Expected 204 but got 404.</div>
+                    <div class="detail-row"><strong>Contract mismatch:</strong> Endpoint returned 404 instead of expected response</div>
+                    <div class="detail-row"><strong>Recommended actions:</strong> <span class="action-chip">Verify resource exists</span><span class="action-chip">Check URL path parameters</span><span class="action-chip">Ensure data seeding</span></div>
+                </div>
+            </details>
+            </div>
+        
+                </div>
+
+                <div class="panel">
+                    <h2>Contract Validation</h2>
+                    
+        <div class="contract-panel">
+            
+            <div class="contract-row status-pass">
+                <span class="contract-tool">Schemathesis (property-based)</span>
+                <span class="contract-status">PASSED</span>
+            </div>
+            
+            
+            <div class="contract-row status-pass">
+                <span class="contract-tool">Dredd (conformance)</span>
+                <span class="contract-status">PASSED</span>
+            </div>
+            
+        </div>
+        <div class="contract-overall">Overall: <strong>PASSED</strong></div>
+        
+                </div>
+
+                <div class="panel">
+                    <h2>Code Coverage</h2>
+                    
+        <div class="cov-total">
+            <span class="cov-total-number" style="color:var(--cyan)">96.1%</span>
+            <span class="cov-total-label">overall statement coverage · 2537/2639 lines</span>
+        </div>
+        <div class="cov-files">
+                <div class="cov-row">
+                    <span class="cov-path mono">execution/test_runner.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:82%;background:var(--amber-dim)"></div></div>
+                    <span class="cov-pct mono">82%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">validators/contract_validator.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:88%;background:var(--amber-dim)"></div></div>
+                    <span class="cov-pct mono">88%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">core/langchain_orchestrator.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:89%;background:var(--amber-dim)"></div></div>
+                    <span class="cov-pct mono">89%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">reports/failure_analyzer.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:95%;background:var(--cyan)"></div></div>
+                    <span class="cov-pct mono">95%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">generators/postman_generator.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:96%;background:var(--cyan)"></div></div>
+                    <span class="cov-pct mono">96%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">api/petstore_api.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:96%;background:var(--cyan)"></div></div>
+                    <span class="cov-pct mono">96%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">core/openapi_parser.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:96%;background:var(--cyan)"></div></div>
+                    <span class="cov-pct mono">96%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">main.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:97%;background:var(--cyan)"></div></div>
+                    <span class="cov-pct mono">97%</span>
+                </div>
+            
+                <div class="cov-row">
+                    <span class="cov-path mono">reports/dashboard_generator.py</span>
+                    <div class="cov-track"><div class="cov-fill" style="width:98%;background:var(--cyan)"></div></div>
+                    <span class="cov-pct mono">98%</span>
+                </div>
+            </div>
+        
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <span>ContractIQ — Intelligent API Testing and Validation Suite</span>
+        <span class="sep">·</span>
+        <span>Generated locally, no external services required</span>
+    </footer>
+
+    <script>
+
+document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.dataset.filter;
+        document.querySelectorAll('#test-table tbody tr').forEach(function(row) {
+            if (filter === 'all' || row.dataset.status === filter) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+});
+
+    </script>
+</body>
+</html>
